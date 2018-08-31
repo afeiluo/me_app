@@ -4,3 +4,7 @@ target/
 .classpath
 .project
 .svn/
+me-open/logs/
+*.iml
+me-web/logs/
+me-web/logs.dir_IS_UNDEFIEND
