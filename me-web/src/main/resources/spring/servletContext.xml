@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+		
+	<!-- 扫描并识别具有@Controller和@RequestMapping注解的类 -->
+	<context:component-scan base-package="com.yy.me" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<!-- 
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		-->
+		<!-- 必须要注明排除Service，否则将会产生2个同时执行的定时任务，并且不会使用appContext.xml中配置的task executor，而是使用spring自带的SimpleAsyncTaskExecutor：即每次来一个请求就新建一个线程！ -->
+	</context:component-scan>
+	
+</beans>

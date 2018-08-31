@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/data/mongo
+		http://www.springframework.org/schema/data/mongo/spring-mongo-1.8.xsd">
+
+	<bean id="mongoTag" class="com.mongodb.Tag">
+		<constructor-arg index="0" value="IDC"/>
+		<constructor-arg index="1" value="${mongo.replica.tagValue}"/>
+	</bean>
+	<bean id="mongoTagSet" class="com.mongodb.TagSet">
+		<constructor-arg ref="mongoTag"/>
+	</bean>
+	<bean id="readPreference" class="com.mongodb.TaggableReadPreference.NearestReadPreference">
+		<constructor-arg ref="mongoTagSet"/>
+	</bean>
+
+	<!-- main MongoDB Config start-->
+	<mongo:mongo-client id="mongo" replica-set="${mongo.replica.operation}" credentials="${mongo.replica.operation.credentials}" >
+		<mongo:client-options connections-per-host="300"
+							  threads-allowed-to-block-for-connection-multiplier="5"
+							  socket-keep-alive="true"
+							  connect-timeout="15000"
+							  socket-timeout="60000"
+							  read-preference="NEAREST" />
+	</mongo:mongo-client>
+	<mongo:db-factory id="mongoDbFactory"  mongo-ref="mongo" dbname="${mongo.replica.operation.dbname}" />
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongoDbFactory" />
+		<property name="writeConcern" value="ACKNOWLEDGED" />
+		<property name="readPreference" ref="readPreference"/>
+	</bean>
+	<!-- main MongoDB Config end-->
+
+	<!-- liveshow list database config start  -->
+	<mongo:mongo-client id="mongoLiveshow" replica-set="${mongo.replica.liveshow}" credentials="${mongo.replica.liveshow.credentials}" >
+		<mongo:client-options connections-per-host="10"
+							  threads-allowed-to-block-for-connection-multiplier="5"
+							  socket-keep-alive="true"
+							  connect-timeout="5000"
+							  socket-timeout="5000"
+							  read-preference="NEAREST" />
+	</mongo:mongo-client>
+	<mongo:db-factory id="mongoDbFactoryLiveshow" mongo-ref="mongoLiveshow" dbname="${mongo.replica.liveshow.dbname}" />
+	<bean id="mongoTemplateLiveshow" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongoDbFactoryLiveshow"  />
+		<property name="writeConcern" value="ACKNOWLEDGED" />
+		<property name="readPreference" ref="readPreference"/>
+	</bean>
+	<!-- liveshow list database config end -->
+
+	<!-- userinfo database config start  -->
+	<mongo:mongo-client id="mongoUser" replica-set="${mongo.replica.liveuser}" credentials="${mongo.replica.liveuser.credentials}" >
+		<mongo:client-options connections-per-host="50"
+							  threads-allowed-to-block-for-connection-multiplier="5"
+							  socket-keep-alive="true"
+							  connect-timeout="5000"
+							  socket-timeout="5000"
+							  read-preference="NEAREST" />
+	</mongo:mongo-client>
+	<mongo:db-factory id="mongoDbFactoryUser" mongo-ref="mongoUser" dbname="${mongo.replica.liveuser.dbname}" />
+	<bean id="mongoTemplateUser" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongoDbFactoryUser"  />
+		<property name="writeConcern" value="ACKNOWLEDGED" />
+		<property name="readPreference" ref="readPreference"/>
+	</bean>
+	<!-- userinfo database config end -->
+
+	<!-- general configuration database config start  -->
+	<mongo:mongo-client id="mongoConfig" replica-set="${mongo.replica.relation}" credentials="${mongo.replica.relation.credentials}">
+		<mongo:client-options connections-per-host="100"
+							  threads-allowed-to-block-for-connection-multiplier="5"
+							  socket-keep-alive="true"
+							  connect-timeout="5000"
+							  socket-timeout="5000"
+							  read-preference="NEAREST" />
+	</mongo:mongo-client>
+	<mongo:db-factory id="mongoDbFactoryConfig" mongo-ref="mongoConfig" dbname="${mongo.replica.relation.dbname}" />
+	<bean id="mongoTemplateConfig" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongoDbFactoryConfig"  />
+		<property name="writeConcern" value="ACKNOWLEDGED" />
+		<property name="readPreference" ref="readPreference"/>
+	</bean>
+	<!-- general configuration database config end -->
+</beans>
+

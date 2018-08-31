@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>me-web-parent</artifactId>
+		<groupId>com.yy.me</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>me-pay</artifactId>
+	<packaging>war</packaging>
+	<name>me-pay</name>
+	<modelVersion>4.0.0</modelVersion>
+	<description>ME Pay Web Project</description>
+
+	<properties>
+		<projectName>me-pay</projectName>
+
+		<javamail_ver>1.4.7</javamail_ver>
+		<servlet-api_ver>3.1.0</servlet-api_ver>
+		<service-webdb_ver>2.0.2</service-webdb_ver>
+		<thrift-webdb_ver>2.0.1</thrift-webdb_ver>
+		<service-im_ver>1.4</service-im_ver>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.yy.me</groupId>
+			<artifactId>me-web-service</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<!-- service-webdb 使用0.9.1版本的thrift.jar -->
+		<dependency>
+			<groupId>com.yy.cs</groupId>
+			<artifactId>service-webdb</artifactId>
+			<version>${service-webdb_ver}</version>
+			<exclusions><exclusion>
+				<groupId>com.yy.cs</groupId>
+				<artifactId>thrift-webdb-0.6.1</artifactId>
+			</exclusion></exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.yy.cs</groupId>
+			<artifactId>thrift-webdb-0.9.1</artifactId>
+			<version>${thrift-webdb_ver}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yy.cs</groupId>
+			<artifactId>service-im</artifactId>
+			<version>${service-im_ver}</version>
+		</dependency>
+
+		<!-- Java CSR (javax) -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet-api_ver}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${javamail_ver}</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>ROOT</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<pluginManagement>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.0.5.v20130815</version>
+				<configuration>
+					<contextPath>/</contextPath>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<path>/</path>
+					<port>8080</port>
+					<uriEncoding>UTF-8</uriEncoding>
+					<!--<java.util.logging.manager>org.apache.juli.ClassLoaderLogManager</java.util.logging.manager>-->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

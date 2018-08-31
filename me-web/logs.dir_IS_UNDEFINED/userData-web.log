@@ -1,0 +1,29 @@
+2016-10-12 16:35:39,915 [myScheduler-3] [FillService.java:180] [DEBUG FillService] - Refresh LiveShowWaterMark CACHE!
+2016-10-12 16:35:40,065 [myScheduler-12] [GeneralConfService.java:65] [DEBUG GeneralConfService] - Refresh General Conf! conf size:43
+2016-10-12 16:35:44,000 [MetricsWorker_20161012163106] [InternalLog.java:515] [DEBUG InternalLog] - clear output
+2016-10-12 16:35:44,841 [pool-20-thread-1] [BaseServletUtil.java:569] [INFO BaseServletUtil] - Send out Bytes Per 10 Seconds : 0
+2016-10-12 16:35:46,904 [myScheduler-4] [UserInfoMongoDBMapper.java:82] [DEBUG UserInfoMongoDBMapper] - Cache size:5, stat:CacheStats{hitCount=0, missCount=0, loadSuccessCount=0, loadExceptionCount=0, totalLoadTime=0, evictionCount=0}
+2016-10-12 16:35:49,952 [myScheduler-6] [FillService.java:180] [DEBUG FillService] - Refresh LiveShowWaterMark CACHE!
+2016-10-12 16:35:50,101 [myScheduler-8] [GeneralConfService.java:65] [DEBUG GeneralConfService] - Refresh General Conf! conf size:43
+2016-10-12 16:35:54,842 [pool-20-thread-1] [BaseServletUtil.java:569] [INFO BaseServletUtil] - Send out Bytes Per 10 Seconds : 0
+2016-10-12 16:35:55,000 [MetricsWorker_20161012163106] [InternalLog.java:515] [DEBUG InternalLog] - clear output
+2016-10-12 16:35:56,904 [myScheduler-13] [UserInfoMongoDBMapper.java:82] [DEBUG UserInfoMongoDBMapper] - Cache size:5, stat:CacheStats{hitCount=0, missCount=0, loadSuccessCount=0, loadExceptionCount=0, totalLoadTime=0, evictionCount=0}
+2016-10-12 16:35:59,987 [myScheduler-15] [FillService.java:180] [DEBUG FillService] - Refresh LiveShowWaterMark CACHE!
+2016-10-12 16:36:00,137 [myScheduler-16] [GeneralConfService.java:65] [DEBUG GeneralConfService] - Refresh General Conf! conf size:43
+2016-10-12 16:36:01,105 [MetricsWorker_20161012163106] [InternalLog.java:515] [DEBUG InternalLog] - connection not established, queue 4
+2016-10-12 16:36:04,843 [pool-20-thread-1] [BaseServletUtil.java:569] [INFO BaseServletUtil] - Send out Bytes Per 10 Seconds : 0
+2016-10-12 16:36:06,906 [myScheduler-19] [UserInfoMongoDBMapper.java:82] [DEBUG UserInfoMongoDBMapper] - Cache size:5, stat:CacheStats{hitCount=0, missCount=0, loadSuccessCount=0, loadExceptionCount=0, totalLoadTime=0, evictionCount=0}
+2016-10-12 16:36:07,355 [pool-9-thread-3] [AnchorReplayMongoDBMapper.java:70] [INFO AnchorReplayMongoDBMapper] - 65ms, findAnchorReplay, uid:null, page:0, pageSize:10000, ret size:5
+2016-10-12 16:36:10,022 [myScheduler-20] [FillService.java:180] [DEBUG FillService] - Refresh LiveShowWaterMark CACHE!
+2016-10-12 16:36:10,173 [myScheduler-11] [GeneralConfService.java:65] [DEBUG GeneralConfService] - Refresh General Conf! conf size:43
+2016-10-12 16:36:14,842 [pool-20-thread-1] [BaseServletUtil.java:569] [INFO BaseServletUtil] - Send out Bytes Per 10 Seconds : 0
+2016-10-12 16:36:15,001 [MetricsWorker_20161012163106] [InternalLog.java:515] [DEBUG InternalLog] - clear output
+2016-10-12 16:36:16,906 [myScheduler-1] [UserInfoMongoDBMapper.java:82] [DEBUG UserInfoMongoDBMapper] - Cache size:5, stat:CacheStats{hitCount=0, missCount=0, loadSuccessCount=0, loadExceptionCount=0, totalLoadTime=0, evictionCount=0}
+2016-10-12 16:36:20,057 [myScheduler-6] [FillService.java:180] [DEBUG FillService] - Refresh LiveShowWaterMark CACHE!
+2016-10-12 16:36:20,242 [myScheduler-9] [GeneralConfService.java:65] [DEBUG GeneralConfService] - Refresh General Conf! conf size:43
+2016-10-12 16:36:24,843 [pool-20-thread-1] [BaseServletUtil.java:569] [INFO BaseServletUtil] - Send out Bytes Per 10 Seconds : 0
+2016-10-12 16:36:26,907 [myScheduler-18] [UserInfoMongoDBMapper.java:82] [DEBUG UserInfoMongoDBMapper] - Cache size:5, stat:CacheStats{hitCount=0, missCount=0, loadSuccessCount=0, loadExceptionCount=0, totalLoadTime=0, evictionCount=0}
+2016-10-12 16:36:30,092 [myScheduler-16] [FillService.java:180] [DEBUG FillService] - Refresh LiveShowWaterMark CACHE!
+2016-10-12 16:36:30,279 [myScheduler-7] [GeneralConfService.java:65] [DEBUG GeneralConfService] - Refresh General Conf! conf size:43
+2016-10-12 16:36:34,842 [pool-20-thread-1] [BaseServletUtil.java:569] [INFO BaseServletUtil] - Send out Bytes Per 10 Seconds : 0
+2016-10-12 16:36:36,907 [myScheduler-3] [UserInfoMongoDBMapper.java:82] [DEBUG UserInfoMongoDBMapper] - Cache size:5, stat:CacheStats{hitCount=0, missCount=0, loadSuccessCount=0, loadExceptionCount=0, totalLoadTime=0, evictionCount=0}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<!-- ======================================================================== -->
+	<!-- Spring bootstrap config, only use this file in code should be sufficient -->
+	<!-- ======================================================================== -->
+
+	<import resource="classpath*:spring/appContext-*.xml" />
+
+	<context:component-scan base-package="com.yy.me">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<context:property-placeholder location="classpath*:projectGlobal.properties" />
+	<util:properties id="settings" location="classpath*:projectGlobal.properties" />
+	<!-- 启动定时任务！ -->
+	<!-- 多线程 <task:annotation-driven /> -->
+	<task:annotation-driven executor="myExecutor" scheduler="myScheduler" />
+	<task:executor id="myExecutor" pool-size="500" />
+	<task:scheduler id="myScheduler" pool-size="20" />
+
+	<bean id="metricsClient" class="com.yy.me.metrics.MetricsClient">
+		<property name="appName" value="${metrics.appName}" />
+	</bean>
+
+	<!-- Enable handling of java.util.logging through SLF4J -->
+	<bean id="slf4JBridgeHandler" class="org.slf4j.bridge.SLF4JBridgeHandler" init-method="removeHandlersForRootLogger" />
+	<bean class="org.slf4j.bridge.SLF4JBridgeHandler" init-method="install" depends-on="slf4JBridgeHandler" />
+
+	<bean id="controlCenterService" class="com.yy.cnt.ControlCenterService">
+		<constructor-arg index="0" value="${cnt.service.host}" />
+		<constructor-arg index="1" value="${cnt.service.app}" />
+		<constructor-arg index="2" value="5" /> <!-- retryTime -->
+		<constructor-arg index="3" value="2000" /><!-- retryHoldTime -->
+		<constructor-arg index="4" value="2000" /><!-- timeout -->
+		<constructor-arg index="5" value="/data/file/cache" />
+	</bean>
+	<bean id="cntConfService" class="com.yy.me.config.CntConfService">
+		<constructor-arg name="controlCenterService" ref="controlCenterService" />
+	</bean>
+	
+	<bean id="lsBroadcastAloProducer"
+		  class="com.yy.me.liveshow.client.mq.LsBroadcastAloProducer" init-method="init">
+        <constructor-arg index="0" value="${metrics.appName}" />
+        <constructor-arg index="1" ref="controlCenterService" />
+	</bean>
+
+	<bean id="messageMongoDBMapper"
+		  class="com.yy.me.message.MessageMongoDBMapper" >
+		<constructor-arg name="mongoTemplate" ref="mongoTemplateLiveshow" />
+		<constructor-arg name="pushServiceThriftClient" ref="pushServiceThriftClient" />
+	</bean>
+
+	<bean id="generalConfService"
+		  class="com.yy.me.config.GeneralConfService" >
+		<constructor-arg name="mongoTemplate" ref="mongoTemplate" />
+	</bean>
+</beans>

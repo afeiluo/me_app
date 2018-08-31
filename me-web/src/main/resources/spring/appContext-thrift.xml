@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<!-- 集线塔中央服务 -->
+	<bean id="centerConfig" class="com.yy.cs.common.service.config.CenterConfig">
+		<constructor-arg index="0" value="${CenterConfig}"></constructor-arg>
+		<property name="application" value="tiny-times" />
+	</bean>
+	<bean id="meCenterConfig" class="com.yy.cs.common.service.config.CenterConfig">
+		<constructor-arg index="0" value="${CenterConfig}"></constructor-arg>
+		<property name="application" value="me-live" />
+	</bean>
+
+	<bean id="userHessianService" class="com.yy.cs.center.ReferenceFactory"
+		destroy-method="destroy">
+		<property name="centerConfig" ref="meCenterConfig" />
+		<!--<property name="localConfigs"> <list> <ref bean="localConfig"/> </list> 
+			</property> -->
+		<property name="interfaceName" value="com.yy.me.user.UserHessianService" />
+		<property name="protocol" value="HESSIAN" />
+		<property name="group" value="${user_group}" />
+	</bean>
+
+	<!-- Anchor Service -->
+	<bean id="anchorServiceHessianClient" class="com.yy.cs.center.ReferenceFactory">
+		<property name="interfaceName" value="com.yy.me.anchor.family.AnchorService" />
+		<property name="centerConfig" ref="meCenterConfig" />
+		<property name="protocol" value="HESSIAN" />
+		<property name="group" value="${anchor_family_idc_group}" />
+	</bean>
+
+	<!-- LiveShow Service -->
+	<bean id="liveShowThriftService" class="com.yy.cs.center.ReferenceFactory">
+		<property name="centerConfig" ref="meCenterConfig" />
+		<!-- 接口名称 -->
+		<property name="interfaceName"
+			value="com.yy.me.liveshow.thrift.LiveShowThriftService" />
+		<property name="thriftProtocol" value="COMPACT" />
+		<property name="group" value="${liveshow_idc_group}" />
+	</bean>
+
+	<!-- Push Service -->
+	<bean id="pushServiceThriftClient" class="com.yy.cs.center.ReferenceFactory">
+		<property name="interfaceName" value="com.yy.me.message.thrift.push.PushService" />
+		<property name="centerConfig" ref="meCenterConfig" />
+		<property name="group" value="${push_idc_group}" />
+	</bean>
+
+	<!-- MMS Report Service -->
+	<bean id="mmsReportThriftClient" class="com.yy.cs.center.ReferenceFactory">
+		<property name="interfaceName"
+			value="com.yy.tinytimes.thrift.mms.server.MmsReportServ$Iface" />
+		<property name="centerConfig" ref="centerConfig" />
+		<property name="group" value="${idc_group}" />
+	</bean>
+	<bean id="geoThriftService" class="com.yy.cs.center.ReferenceFactory">
+		<property name="centerConfig" ref="meCenterConfig" />
+		<property name="interfaceName" value="com.yy.me.geo.thrift.GeoService" />
+		<property name="thriftProtocol" value="BINARY" />
+		<property name="pingMethodName" value="ping"></property>
+		<property name="group" value="${geo_idc_group}" />
+	</bean>
+
+
+	<!-- MMS txt Report Service -->
+	<bean id="mmsTxtReportThriftClient" class="com.yy.cs.center.ReferenceFactory">
+		<property name="interfaceName"
+			value="com.yy.tinytimes.thrift.mms.txt.MmsReportServ" />
+		<property name="centerConfig" ref="centerConfig" />
+		<property name="group" value="${idc_group}" />
+	</bean>
+	<!--视频切片送审 -->
+	<bean id="mmsVideoReportThriftClient" class="com.yy.cs.center.ReferenceFactory">
+		<property name="interfaceName"
+			value="com.yy.tinytimes.thrift.mms.server.video.MmsReportServ$Iface" />
+		<property name="centerConfig" ref="centerConfig" />
+		<property name="group" value="${idc_group}" />
+	</bean>
+
+	<!-- Censor Words Service -->
+	<bean id="keyWordsThriftClient" class="com.yy.cs.center.ReferenceFactory">
+		<property name="interfaceName"
+			value="com.yy.tinytimes.thrift.mms.keywords.KeywordsSearch$Iface" />
+		<property name="centerConfig" ref="centerConfig" />
+		<property name="group" value="${idc_group}" />
+	</bean>
+
+	<!-- Friend Service -->
+	<bean id="friendServiceHessianClient" class="com.yy.cs.center.ReferenceFactory"
+		destroy-method="destroy">
+		<property name="centerConfig" ref="meCenterConfig" />
+		<property name="interfaceName" value="com.yy.me.friend.FriendService" />
+		<property name="protocol" value="HESSIAN" />
+		<property name="group" value="${friend_idc_group}" />
+	</bean>
+
+    <!-- contact service-->
+	<bean id="contactHessianService" class="com.yy.cs.center.ReferenceFactory"
+		  destroy-method="destroy">
+		<property name="centerConfig" ref="meCenterConfig" />
+		<!--<property name="localConfigs"> <list> <ref bean="localConfig"/> </list>
+			</property> -->
+		<property name="interfaceName" value="com.yy.me.contact.ContactHessianService" />
+		<property name="protocol" value="HESSIAN" />
+		<property name="group" value="${contact_group}" />
+	</bean>
+</beans>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+
+	<property resource="pay-web.properties" />
+
+	<!-- Handle JUL -->
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date [%thread] [%file:%line] [%level %logger{0}] - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ACCESS" class="ch.qos.logback.core.FileAppender">
+		<file>${logs.dir}/container-access.log</file>
+		<encoder>
+			<charset>UTF-8</charset> 
+			<pattern>combined</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>${logs.dir}/pay-web.log</file>
+		<encoder>
+			<charset>UTF-8</charset> 
+			<pattern>%date [%thread] [%file:%line] [%level %logger{0}] - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="FILE" />
+		<queueSize>102400</queueSize>  
+    	<discardingThreshold>0</discardingThreshold> 
+	</appender>
+	
+	<!-- ELK上报配置 Start -->
+	<appender name="ME_ELK_FILE" class="ch.qos.logback.core.FileAppender">
+		<file>/data/weblog/others/log_me_elk/history.log</file>
+		<encoder>
+			<charset>UTF-8</charset> 
+			<pattern>%msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="ASYNC_ME_ELK_FILE" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="ME_ELK_FILE" />
+		<queueSize>102400</queueSize>
+    	<discardingThreshold>0</discardingThreshold>
+	</appender>
+	<logger name="me_elk.log" additivity="false" level="DEBUG">
+		<appender-ref ref="ASYNC_ME_ELK_FILE" />
+	</logger>
+    <!-- ELK上报配置 End -->
+
+	<logger name="org.apache" level="WARN" />
+	<logger name="org.springframework" level="INFO" />
+
+	<logger name="org.mongodb.driver" level="WARN" />
+
+	<logger name="com.yy.cs.center.remoting.protocol.thrift.ThriftHandler" level="ERROR" />
+	<logger name="com.yy.cs.center.remoting.netty.NettyClient" level="ERROR" />
+	<logger name="com.yy.cs.base.thrift.client.ClientFactory" level="ERROR" />
+	
+	<logger name="HttpURLConnection" level="ERROR" />
+	<logger name="sun.net.www.protocol.http.HttpURLConnection" level="ERROR" />
+	<logger name="com.yy.me.yycloud.ApTokenUtils" level="WARN" />
+	<logger name="com.yy.cs.center.remoting.exchange" level="INFO" />
+
+	<if condition='property("logs.level").equals("DEBUG")'>
+		<then>
+			<!-- Test Env -->
+			<root level="${logs.level}">
+				<appender-ref ref="STDOUT" />
+				<appender-ref ref="ASYNC_FILE" />
+			</root>
+		</then>
+		<else>
+			<root level="${logs.level}">
+				<appender-ref ref="ASYNC_FILE" />
+			</root>
+		</else>
+	</if>
+	
+</configuration>
+

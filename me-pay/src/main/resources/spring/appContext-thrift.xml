@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 集线塔中央服务 -->
+	<bean id="centerConfig" class="com.yy.cs.common.service.config.CenterConfig">
+		<constructor-arg index="0" value="${CenterConfig}"></constructor-arg>
+		<property name="application" value="tiny-times" />
+	</bean>
+
+	<bean id="meCenterConfig" class="com.yy.cs.common.service.config.CenterConfig">
+		<constructor-arg index="0" value="${CenterConfig}"></constructor-arg>
+		<property name="application" value="me-live" />
+	</bean>
+
+	<bean id="userHessianService" class="com.yy.cs.center.ReferenceFactory"
+		  destroy-method="destroy">
+		<property name="centerConfig" ref="meCenterConfig" />
+		<property name="interfaceName" value="com.yy.me.user.UserHessianService" />
+		<property name="protocol" value="HESSIAN" />
+		<property name="group" value="${user_group}" />
+	</bean>
+
+	<!-- Push Service -->
+	<bean id="pushServiceThriftClient" class="com.yy.cs.center.ReferenceFactory">
+		<property name="interfaceName" value="com.yy.me.message.thrift.push.PushService" />
+		<property name="centerConfig" ref="meCenterConfig" />
+		<property name="group" value="${push_idc_group}" />
+	</bean>
+
+	<!-- Broker Service -->
+	<bean id="brokerServiceHessianClient" class="com.yy.cs.center.ReferenceFactory">
+		<property name="interfaceName" value="com.yy.me.anchor.family.BrokerService" />
+		<property name="centerConfig" ref="meCenterConfig" />
+		<property name="protocol" value="HESSIAN" />
+		<property name="group" value="${anchor_family_idc_group}" />
+	</bean>
+
+	<!-- Anchor Service -->
+	<bean id="anchorServiceHessianClient" class="com.yy.cs.center.ReferenceFactory">
+		<property name="interfaceName" value="com.yy.me.anchor.family.AnchorService" />
+		<property name="centerConfig" ref="meCenterConfig" />
+		<property name="protocol" value="HESSIAN" />
+		<property name="group" value="${anchor_family_idc_group}" />
+	</bean>
+
+	<!-- LiveShow Service -->
+	<bean id="liveShowThriftService" class="com.yy.cs.center.ReferenceFactory">
+		<property name="centerConfig" ref="meCenterConfig" />
+		<!-- 接口名称 -->
+		<property name="interfaceName"
+			value="com.yy.me.liveshow.thrift.LiveShowThriftService" />
+		<property name="thriftProtocol" value="COMPACT" />
+		<property name="group" value="${liveshow_idc_group}" />
+	</bean>
+	
+	<!-- Friend Service -->
+	<bean id="friendServiceHessianClient" class="com.yy.cs.center.ReferenceFactory"
+		destroy-method="destroy">
+		<property name="centerConfig" ref="meCenterConfig" />
+		<property name="interfaceName" value="com.yy.me.friend.FriendService" />
+		<property name="protocol" value="HESSIAN" />
+		<property name="group" value="${friend_idc_group}" />
+	</bean>
+
+	<!-- Settle Service -->
+	<bean id="settleThriftClient" class="com.yy.cs.center.ReferenceFactory">
+		<property name="interfaceName"
+			value="com.yy.tinytimes.thrift.turnover.settle.TSettleService" />
+		<property name="thriftProtocol" value="COMPACT" />
+		<property name="centerConfig" ref="centerConfig" />
+		<property name="group" value="${idc_group}" />
+	</bean>
+
+	<!-- TurnOver Service -->
+	<bean id="turnOverPropsThriftClient" class="com.yy.cs.center.ReferenceFactory">
+		<property name="interfaceName"
+			value="com.yy.tinytimes.thrift.turnover.props.TPropsService" />
+		<property name="thriftProtocol" value="COMPACT" />
+		<property name="centerConfig" ref="centerConfig" />
+		<property name="pingMethodName" value="ping2" />
+		<property name="group" value="${idc_group}" />
+	</bean>
+
+	<bean id="turnOverRankThriftClient" class="com.yy.cs.center.ReferenceFactory">
+		<property name="interfaceName"
+			value="com.yy.tinytimes.thrift.turnover.rank.TRankService" />
+		<property name="thriftProtocol" value="COMPACT" />
+		<property name="centerConfig" ref="centerConfig" />
+		<property name="pingMethodName" value="ping2" />
+		<property name="group" value="${idc_group}" />
+	</bean>
+
+	<bean id="turnOverCurrencyThriftClient" class="com.yy.cs.center.ReferenceFactory">
+		<property name="interfaceName"
+			value="com.yy.tinytimes.thrift.turnover.currency.TCurrencyService" />
+		<property name="thriftProtocol" value="COMPACT" />
+		<property name="centerConfig" ref="centerConfig" />
+		<property name="pingMethodName" value="ping2" />
+		<property name="group" value="${idc_group}" />
+	</bean>
+
+	<!-- service-webdb -->
+	<bean id="webdbGatewayService" class="com.yy.cs.webdb.service.WebdbGatewayService">
+		<constructor-arg index="0" ref="centerConfig"></constructor-arg>
+		<constructor-arg index="1" value="${webdb_idc_group}"></constructor-arg>
+	</bean>
+
+    <!-- service-im -->
+    <bean id="imService" class="com.yy.cs.service.ImService">
+		<constructor-arg index="0" ref="centerConfig"></constructor-arg>
+		<constructor-arg index="1" value="${webdb_idc_group}"></constructor-arg>
+    </bean>
+
+</beans>

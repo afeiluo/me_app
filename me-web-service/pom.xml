@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>me-web-parent</artifactId>
+		<groupId>com.yy.me</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>me-web-service</artifactId>
+	<packaging>jar</packaging>
+	<name>me-web-service</name>
+	<modelVersion>4.0.0</modelVersion>
+	<description>ME web service project</description>
+
+	<properties>
+		<springframework_ver>4.1.6.RELEASE</springframework_ver>
+		<jedis_ver>2.7.2</jedis_ver>
+		<javamail_ver>1.4.7</javamail_ver>
+		<servlet-api_ver>3.1.0</servlet-api_ver>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.yy.me.liveshow</groupId>
+			<artifactId>liveshow-client</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yy.me</groupId>
+			<artifactId>anchor-family-client</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yy.me</groupId>
+			<artifactId>push-client</artifactId>
+			<version>2.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yy.me</groupId>
+			<artifactId>me-friend-core</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<!-- （欢聚云）云BS2 -->
+		<dependency>
+			<groupId>com.yy.java.YCloud-BS2SDK</groupId>
+			<artifactId>YCloud-BS2SDK-lib</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yy.yyembed</groupId>
+			<artifactId>yc-token</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yy.me.geo</groupId>
+			<artifactId>geo-core</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<!-- Team_Utility_Dependencies End -->
+
+		<!-- Java CSR (javax) -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet-api_ver}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${javamail_ver}</version>
+		</dependency>
+
+		<!-- Spring framework -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${springframework_ver}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${springframework_ver}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${springframework_ver}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>${jedis_ver}</version>
+		</dependency>
+
+		<!-- 拼音 -->
+		<dependency>
+			<groupId>com.github.stuxuhai</groupId>
+			<artifactId>jpinyin</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+		</pluginManagement>
+		<plugins>
+		</plugins>
+	</build>
+
+</project>

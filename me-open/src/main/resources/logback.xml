@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+
+	<property resource="projectGlobal.properties" />
+
+	<!-- Handle JUL -->
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date [%thread] [%file:%line] [%level %logger{0}] - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ACCESS" class="ch.qos.logback.core.FileAppender">
+		<file>${logs.dir}/container-access.log</file>
+		<encoder>
+			<charset>UTF-8</charset> 
+			<pattern>combined</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>${logs.dir}/open-web.log</file>
+		<encoder>
+			<charset>UTF-8</charset> 
+			<pattern>%date [%thread] [%file:%line] [%level %logger{0}] - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="FILE" />
+		<queueSize>102400</queueSize>  
+    	<discardingThreshold>0</discardingThreshold>
+		<includeCallerData>true</includeCallerData>
+	</appender>
+	
+	<!-- 数据上报 -->
+    <appender name="STATISTICS_LOG_PATH" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter"> 
+            <level>INFO</level>
+        </filter>
+		<file>${logs.dir}/statistics_info.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${logs.dir}/web_statistics_info.%d.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%date{yyyy-MM-dd HH:mm:ss}\t%msg%n</pattern>
+		</encoder>
+    </appender>
+    <!-- 异步输出 -->  
+    <appender name="ASYNC_STATISTICS_LOG_PATH" class="ch.qos.logback.classic.AsyncAppender">  
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->  
+        <discardingThreshold>0</discardingThreshold>  
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>512</queueSize>  
+        <!-- 添加附加的appender,最多只能添加一个 -->  
+        <appender-ref ref ="STATISTICS_LOG_PATH"/>  
+    </appender>
+	
+	<!-- 欢聚云查询结果 -->
+	<appender name="YY_CLOUD_FILE" class="ch.qos.logback.core.FileAppender">
+		<file>${logs.dir}/yycloud.log</file>
+		<append>false</append><!-- 每次重启都将旧文件删除 -->
+		<encoder>
+			<charset>UTF-8</charset> 
+			<pattern>%date - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="ASYNC_YY_CLOUD_FILE" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="YY_CLOUD_FILE" />
+		<queueSize>102400</queueSize>  
+    	<discardingThreshold>0</discardingThreshold> 
+	</appender>
+	
+	<!-- MongoDB Cluster检测日志 -->
+	<appender name="MONGODB_CLUSTER_FILE" class="ch.qos.logback.core.FileAppender">
+		<file>${logs.dir}/mongodb_cluster.log</file>
+		<append>true</append><!-- 每次重启都不将旧文件删除 -->
+		<encoder>
+			<charset>UTF-8</charset> 
+			<pattern>%date - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="ASYNC_MONGODB_CLUSTER_FILE" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="MONGODB_CLUSTER_FILE" />
+		<queueSize>102400</queueSize>  
+    	<discardingThreshold>0</discardingThreshold> 
+	</appender>
+
+	<!-- 性能日志，3秒超时 performance log -->
+    <appender name="ROLL_FILE_APP_PERFORMANCELOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logs.dir}/performance/data.dat</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logs.dir}/performance/data.dat.%d{yyyyMMdd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%date|%msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    
+	<!--user info update M-->
+	<appender name="ROLL_FILE_APP_USERES_ADDORUPDATE_M"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logs.dir}/userinfo/addorupdate.m.data</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${logs.dir}/userinfo/addorupdate.m.data.dat.%d{yyyyMMdd}
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%date|%msg%n</pattern>
+		</encoder>
+	</appender>
+	<!-- user info update m-->
+	<appender name="ROLL_FILE_APP_USERES_ADDORUPDATE_S"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logs.dir}/userinfo/addorupdate.s.data</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${logs.dir}/userinfo/addorupdate.s.data.dat.%d{yyyyMMdd}
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%date|%msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- user info add or update -->
+	<appender name="ROLL_FILE_APP_USERES_ADDORUPDATE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logs.dir}/userinfo/addorupdate.data</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${logs.dir}/userinfo/addorupdate.data.dat.%d{yyyyMMdd}
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%date|%msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="ROLL_FILE_APP_USERES_ADDORUPDATE_INQUEUE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logs.dir}/userinfo/addorupdate.inQ.data</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${logs.dir}/userinfo/addorupdate.inQ.data.dat.%d{yyyyMMdd}
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%date|%msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="ROLL_FILE_REC_BROADCAST"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logs.dir}/broadcast.data</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${logs.dir}/broadcast.data.dat.%d{yyyyMMdd}
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%date|%msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- ELK上报配置 Start -->
+	<appender name="ME_ELK_FILE" class="ch.qos.logback.core.FileAppender">
+		<file>/data/weblog/others/log_me_elk/history.log</file>
+		<encoder>
+			<charset>UTF-8</charset> 
+			<pattern>%msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="ASYNC_ME_ELK_FILE" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="ME_ELK_FILE" />
+		<queueSize>102400</queueSize>
+    	<discardingThreshold>0</discardingThreshold>
+	</appender>
+	<logger name="me_elk.log" additivity="false" level="DEBUG">
+		<appender-ref ref="ASYNC_ME_ELK_FILE" />
+	</logger>
+    <!-- ELK上报配置 End -->
+	
+	<logger name="com.mchange" level="WARN" />
+	<logger name="org.apache" level="WARN" />
+	<logger name="org.springframework" level="INFO" />
+	<logger name="org.mybatis" level="WARN" />
+	<logger name="com.yy.cs.base.http" level="INFO" />
+
+	<logger name="com.mongodb" level="INFO" />
+
+	<logger name="com.yy.cs.center.remoting.protocol.thrift.ThriftHandler" level="ERROR" />
+	<logger name="com.yy.cs.center.remoting.netty.NettyClient" level="ERROR" />
+	<logger name="com.yy.cs.center.thrift" level="ERROR" />
+	
+	<logger name="com.ning.http.client.providers.netty" level="INFO" />
+	
+	<logger name="HttpURLConnection" level="ERROR" />
+	<logger name="sun.net.www.protocol.http.HttpURLConnection" level="ERROR" />
+	<logger name="com.yy.me.yycloud.ApTokenUtils" level="WARN" />
+	
+	<logger name="com.yy.tinytimes.dao.LiveShowMapper.selectByStartingNow" level="WARN" />
+	
+	<!-- 以下两行屏蔽Transaction日志 -->
+	<logger name="org.mybatis.spring.transaction.SpringManagedTransaction" level="WARN" />
+	<logger name="org.mybatis.spring.SqlSessionUtils" level="WARN" />
+	<!-- 以上两行屏蔽Transaction日志 -->
+	
+	<!-- 转移MongoDB Cluster日志 -->
+	<logger name="org.mongodb.driver" additivity="false" level="ERROR">
+		<appender-ref ref="ASYNC_MONGODB_CLUSTER_FILE" />
+	</logger>
+	
+	<logger name="stat.report.log" additivity="false" level="DEBUG">
+		<appender-ref ref="ASYNC_STATISTICS_LOG_PATH" />
+	</logger>
+	
+	<logger name="yycloud.log" additivity="false" level="ERROR">
+		<appender-ref ref="ASYNC_YY_CLOUD_FILE" />
+	</logger>
+	
+    <logger name="PERFORMANCELOG" level="INFO" additivity="false">
+        <appender-ref ref="ROLL_FILE_APP_PERFORMANCELOG" />
+    </logger>
+    
+    <logger name="USERES_ADDORUPDATE_INQUEUE" level="INFO" additivity="false">
+		<appender-ref ref="ROLL_FILE_APP_USERES_ADDORUPDATE_INQUEUE" />
+	</logger>   
+    <logger name="USERES_ADDORUPDATE" level="INFO" additivity="false">
+		<appender-ref ref="ROLL_FILE_APP_USERES_ADDORUPDATE" />
+	</logger>
+	<logger name="USERES_ADDORUPDATE_M" level="INFO" additivity="false">
+		<appender-ref ref="ROLL_FILE_APP_USERES_ADDORUPDATE_M" />
+	</logger>
+	<logger name="USERES_ADDORUPDATE_S" level="INFO" additivity="false">
+		<appender-ref ref="ROLL_FILE_APP_USERES_ADDORUPDATE_S" />
+	</logger>
+	<logger name="REC_BROADCAST" level="INFO" additivity="false">
+		<appender-ref ref="ROLL_FILE_REC_BROADCAST" />
+	</logger>
+    
+	<if condition='property("logs.level").equals("DEBUG")'>
+		<then>
+			<!-- Test Env -->
+			<root level="${logs.level}">
+				<appender-ref ref="STDOUT" />
+				<appender-ref ref="ASYNC_FILE" />
+			</root>
+		</then>
+		<else>
+			<root level="${logs.level}">
+				<appender-ref ref="ASYNC_FILE" />
+			</root>
+		</else>
+	</if>
+	
+</configuration>
+

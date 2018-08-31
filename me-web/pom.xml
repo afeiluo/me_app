@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>me-web-parent</artifactId>
+		<groupId>com.yy.me</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>me-web</artifactId>
+	<packaging>war</packaging>
+	<name>me-web</name>
+	<modelVersion>4.0.0</modelVersion>
+	<description>ME Web Project</description>
+
+	<properties>
+		<projectName>tiny-times</projectName>
+
+		<javamail_ver>1.4.7</javamail_ver>
+		<servlet-api_ver>3.1.0</servlet-api_ver>
+
+		<maven_findbugs_ver>2.5.3</maven_findbugs_ver>
+		<maven_resources_ver>2.6</maven_resources_ver>
+		<maven_cobertura_ver>2.6</maven_cobertura_ver>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.yy.me</groupId>
+			<artifactId>me-web-service</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<!-- Java CSR (javax) -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet-api_ver}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${javamail_ver}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yy.me</groupId>
+			<artifactId>contact-client</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>ROOT</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<pluginManagement>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.0.5.v20130815</version>
+				<configuration>
+					<contextPath>/</contextPath>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<path>/</path>
+					<port>8083</port>
+					<uriEncoding>UTF-8</uriEncoding>
+					<!--<java.util.logging.manager>org.apache.juli.ClassLoaderLogManager</java.util.logging.manager> -->
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>${maven_cobertura_ver}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<version>${maven_findbugs_ver}</version>
+				<artifactId>findbugs-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
